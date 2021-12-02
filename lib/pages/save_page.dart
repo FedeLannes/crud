@@ -6,26 +6,31 @@ import 'package:flutter/material.dart';
 class SavePage extends StatelessWidget {
   static const String ROUTE = "/save";
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Guardar"),
-      ),
-      body: Container(
-        child: _FormSave(),
-      ),
-    );
-  }
-}
-
-class _FormSave extends StatelessWidget {
   final _formkey = GlobalKey<FormState>();
   final titleController = TextEditingController();
   final contentController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    Note note = ModalRoute.of(context).settings.arguments;
+    _init(note);
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Guardar"),
+      ),
+      body: Container(
+        child: _buildForm(note),
+      ),
+    );
+  }
+
+  _init(Note note) {
+    titleController.text = note.title;
+    contentController.text = note.content;
+  }
+
+  Widget _buildForm(Note note) {
     return Container(
       padding: EdgeInsets.all(15),
       child: Form(
@@ -61,12 +66,19 @@ class _FormSave extends StatelessWidget {
                 child: Text("Guardar"),
                 onPressed: () {
                   if (_formkey.currentState.validate()) {
-                    print("valido " + titleController.text);
-
-                    Operation.insert(Note(
-                        title: titleController.text,
-                        content: contentController.text));
+                    if (note.id != null) {
+                      note.title = titleController.text;
+                      note.content = contentController.text;
+                      Operation.update(note);
+                    } else {
+                      Operation.insert(Note(
+                          title: titleController.text,
+                          content: contentController.text));
+                    }
                   }
+                  /*Operation.insert(Note(
+                      title: titleController.text,
+                      content: contentController.text));*/
                 })
           ],
         ),

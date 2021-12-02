@@ -1,11 +1,13 @@
 // @dart=2.9
 
 class Note {
-  final int id;
-  final String title;
-  final String content;
+  int id;
+  String title;
+  String content;
 
   Note({this.id, this.title, this.content});
+
+  Note.empty();
 
   Map<String, dynamic> toMap() {
     return {'id': id, 'title': title, 'content': content};

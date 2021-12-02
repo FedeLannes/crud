@@ -25,6 +25,13 @@ class Operation {
     return database.delete("notes", where: 'id = ?', whereArgs: [note.id]);
   }
 
+  static Future<void> update(Note note) async {
+    Database database = await _openDB();
+
+    return database
+        .update("notes", note.toMap(), where: 'id = ?', whereArgs: [note.id]);
+  }
+
   static Future<List<Note>> notes() async {
     Database database = await _openDB();
 
