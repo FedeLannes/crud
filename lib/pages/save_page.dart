@@ -3,11 +3,18 @@ import 'package:crud/db/operation.dart';
 import 'package:crud/models/note.dart';
 import 'package:flutter/material.dart';
 
-class SavePage extends StatelessWidget {
+class SavePage extends StatefulWidget {
   static const String ROUTE = "/save";
 
+  @override
+  State<SavePage> createState() => _SavePageState();
+}
+
+class _SavePageState extends State<SavePage> {
   final _formkey = GlobalKey<FormState>();
+
   final titleController = TextEditingController();
+
   final contentController = TextEditingController();
 
   @override
@@ -15,12 +22,15 @@ class SavePage extends StatelessWidget {
     Note note = ModalRoute.of(context).settings.arguments;
     _init(note);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Guardar"),
-      ),
-      body: Container(
-        child: _buildForm(note),
+    return WillPopScope(
+      onWillPop: _onWillPopScope,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("Guardar"),
+        ),
+        body: Container(
+          child: _buildForm(note),
+        ),
       ),
     );
   }
@@ -84,5 +94,24 @@ class SavePage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<bool> _onWillPopScope() {
+    return showDialog<bool>(
+        context: context,
+        builder: (context) => AlertDialog(
+              title:
+                  Text("¿Seguro que quieres regresar a la pagina anterionr?"),
+              content: Text('Tiene data sin guardar'),
+              actions: [
+                new TextButton(
+                  onPressed: () => Navigator.of(context).pop(false),
+                  child: Text("No"),
+                ),
+                new TextButton(
+                    onPressed: () => Navigator.of(context).pop(true),
+                    child: Text("Si"))
+              ],
+            ));
   }
 }
