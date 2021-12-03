@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "172128246446",
+    "project_id": "crudtest2-9f683",
+    "storage_bucket": "crudtest2-9f683.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:172128246446:android:0a8c963d778ee31fef2b3f",
+        "android_client_info": {
+          "package_name": "com.universidadtecnologicatucuman.prueba"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "172128246446-0gh05uffsev6006bud66q4rtkpk8pj3u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAi11NeUpm0iK2C7PGQU4MTL4MBBmcWVNY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "172128246446-0gh05uffsev6006bud66q4rtkpk8pj3u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
