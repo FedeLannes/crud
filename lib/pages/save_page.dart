@@ -1,4 +1,5 @@
 // @dart=2.9
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crud/db/operation.dart';
 import 'package:crud/models/note.dart';
 import 'package:flutter/material.dart';
@@ -81,6 +82,11 @@ class _SavePageState extends State<SavePage> {
                       note.content = contentController.text;
                       Operation.update(note);
                     } else {
+                      FirebaseFirestore.instance.collection("notas").add({
+                        'title': titleController.text,
+                        'content': contentController.text
+                      });
+
                       Operation.insert(Note(
                           title: titleController.text,
                           content: contentController.text));
