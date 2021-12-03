@@ -1,5 +1,6 @@
 // @dart=2.9
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crud/db/operation.dart';
 import 'package:crud/models/note.dart';
 import 'package:crud/pages/save_page.dart';
@@ -31,25 +32,53 @@ class _MyListState extends State<_MyList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          Navigator.pushNamed(context, SavePage.ROUTE, arguments: Note.empty())
-              .then((value) => setState(() {
-                    _loadData();
-                  }));
-        },
-      ),
-      appBar: AppBar(
-        title: Text("Listado"),
-      ),
-      body: Container(
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
+          onPressed: () {
+            Navigator.pushNamed(context, SavePage.ROUTE,
+                    arguments: Note.empty())
+                .then((value) => setState(() {
+                      _loadData();
+                    }));
+          },
+        ),
+        appBar: AppBar(
+          title: Text("Listado"),
+        ),
+        body: StreamBuilder(
+          stream: FirebaseFirestore.instance.collection("notas").snapshots(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+
+            List<DocumentSnapshot> docs = snapshot.data.docs;
+
+            return Container(
+              child: ListView.builder(
+                  itemCount: docs.length,
+                  itemBuilder: (_, i) {
+                    Map<String, dynamic> data = docs[i].data();
+                    print("______");
+                    print(data);
+
+                    return ListTile(
+                      title: Text(data['title']),
+                    );
+                  }),
+            );
+          },
+        )
+
+        /*Container(
         child: ListView.builder(
           itemCount: notes.length,
           itemBuilder: (_, i) => createItem(i),
         ),
-      ),
-    );
+      ),*/
+        );
   }
 
   _loadData() async {
